@@ -6,12 +6,13 @@ class ToDoItem extends StatelessWidget {
   final ToDo todo;
   final onToDoChanged;
   final onDeleteItem;
+  final onEditItem;
 
   const ToDoItem({
     super.key,
     required this.todo,
     required this.onToDoChanged,
-    required this.onDeleteItem,
+    required this.onDeleteItem, this.onEditItem,
   });
 
   @override
@@ -40,24 +41,14 @@ class ToDoItem extends StatelessWidget {
             decoration: todo.isDone ? TextDecoration.lineThrough : null,
           ),
         ),
-        trailing: Container(
-          padding: const EdgeInsets.all(0),
-          margin: const EdgeInsets.symmetric(vertical: 12),
-          height: 35,
-          width: 35,
-          decoration: BoxDecoration(
-            color: tdRed,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: IconButton(
-            color: Colors.white,
-            onPressed: () {
-              // print('Clicked on ToDo Delete Item');
-              onDeleteItem(todo.id);
-            },
-            iconSize: 18,
-            icon: const Icon(Icons.delete),
-          ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min, 
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            GestureDetector(onTap: () => onEditItem(todo.id),child: const Icon(Icons.edit_square,color: tdBlue,size: 24,)),     
+            const SizedBox(width: 14),
+            GestureDetector(onTap: () => onDeleteItem(todo.id), child: const Icon(Icons.delete,color: tdRed,size: 24,)),
+          ],
         ),
       ),
     );

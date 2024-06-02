@@ -58,6 +58,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                           todo: todoo,
                           onToDoChanged: _handleToDoChange,
                           onDeleteItem: _deleteToDoItem,
+                          onEditItem: _handleToDoEdit,
                         ),
                     ],
                   ),
@@ -108,7 +109,8 @@ class _ScreenHomeState extends State<ScreenHome> {
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      _addToDoItem(_todoController.text);
+                      String text = _todoController.text;
+                      text.isEmpty ? null : _addToDoItem(text);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: tdBlue,
@@ -137,7 +139,13 @@ class _ScreenHomeState extends State<ScreenHome> {
       todo.isDone = !todo.isDone;
     });
   }
-
+  void _handleToDoEdit(String id) {
+    final tile = todoList.firstWhere((item) => item.id == id);
+    setState(() {
+      String text = tile.todoText.toString();
+      _todoController.text = text;
+    });
+  }
   void _deleteToDoItem(String id) {
     setState(() {
       todoList.removeWhere((item) => item.id == id);
